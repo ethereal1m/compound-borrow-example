@@ -9,7 +9,12 @@
  *     a private key for a wallet (that contains ETH on that network).
  */
 const Web3 = require('web3');
-const web3 = new Web3('http://127.0.0.1:8545');
+//const web3 = new Web3('http://127.0.0.1:8545');
+// const web3 = new Web3('https://eth-kovan.alchemyapi.io/v2/2y2GU0BMsSGXB-xbDcv5-UwSdPYZg0Er');
+
+const web3 = new Web3('https://kovan.infura.io/v3/d8669df2db504336a704e52a6126b322');
+
+
 const { bytecode } = require('./.build/bytecode.json');
 const abi = require('./.build/abi.json');
 
@@ -19,10 +24,13 @@ const abi = require('./.build/abi.json');
   // const privateKey = '_YOUR_WALLET_PRIVATE_KEY_HERE_';
   // web3.eth.accounts.wallet.add('0x' + privateKey);
   // const myWalletAddress = web3.eth.accounts.wallet[0].address;
+  const dotenv  =require('dotenv');
+  dotenv.config();
+  const privateKey = process.env.myWalletPrivateKey;
+  web3.eth.accounts.wallet.add('0x' + privateKey);
 
-  // For local Ganache test net deployment, use the following:
-  const ganacheAccounts = await web3.eth.getAccounts();
-  const myWalletAddress = ganacheAccounts[0];
+  const myWalletAddress = web3.eth.accounts.wallet[0].address;
+
 
   const myContract = new web3.eth.Contract(abi);
 
